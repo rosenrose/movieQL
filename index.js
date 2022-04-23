@@ -46,4 +46,4 @@ const httpServer = http.createServer((req, res) => {
   res.setHeader("Allow-Control-Allow-Origin", "*");
   yogaServer.requestListener(req, res);
 });
-httpServer.listen(4000);
+httpServer.listen(process.env.PORT || 4000);
