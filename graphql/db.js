@@ -3,7 +3,7 @@ import axios from "axios";
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    return Promise.resolve(error);
+    return Promise.resolve(error.response);
   }
 );
 
@@ -126,7 +126,7 @@ async function extractInfo(item) {
       const maxres = thumbnail.replace(/[^\/]+(?=.jpg)/, res);
       const response = await axios.get(maxres);
 
-      if (response.request.res.statusCode == 200) {
+      if (response.status == 200) {
         return { ...info, thumbnail: maxres };
       }
     }
