@@ -86,12 +86,11 @@ export const getItems = async (max) => {
       responseType: "json",
     })
   ).data.items;
-  const id = item.contentDetails.videoId;
 
   return items.map(async (item) => ({
-    id,
+    id: item.contentDetails.videoId,
     ...extractInfo(item),
-    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
+    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${item.contentDetails.videoId}`)).data,
   }));
 };
 
