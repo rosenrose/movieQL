@@ -101,7 +101,6 @@ export const getItem = async (id) => {
       responseType: "json",
     })
   ).data.items[0];
-  const id = item.id;
 
   return {
     id,
