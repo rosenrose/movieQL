@@ -1,12 +1,5 @@
 import axios from "axios";
 
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    return Promise.resolve(error.response);
-  }
-);
-
 export const people = [
   {
     id: 0,
@@ -78,6 +71,7 @@ const id = "UUyWiQldYO_-yeLJC0j5oq2g";
 const API_KEY = process.env.API_KEY;
 const ITEMS_URL = `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${id}&key=${API_KEY}&part=snippet,contentDetails`;
 const ITEM_URL = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,contentDetails`;
+const THUMBNAIL_URL = "https://asia-northeast3-get-youtube-thumbnail.cloudfunctions.net/thumbnail";
 
 export const getItems = async (max) => {
   let request_url;
@@ -95,7 +89,8 @@ export const getItems = async (max) => {
 
   return items.map(async (item) => ({
     id: item.contentDetails.videoId,
-    ...(await extractInfo(item)),
+    ...extractInfo(item),
+    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
   }));
 };
 
@@ -108,29 +103,12 @@ export const getItem = async (id) => {
 
   return {
     id: item.id,
-    ...(await extractInfo(item)),
+    ...extractInfo(item),
+    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
   };
 };
 
 async function extractInfo(item) {
-  const { title, description, publishedAt: date, thumbnails } = item.snippet;
-  const info = { title, description, date };
-  const thumbnail = thumbnails[Object.keys(thumbnails).at(-1)].url;
-
-  if (thumbnail.endsWith("maxresdefault.jpg")) {
-    return { ...info, thumbnail };
-  } else {
-    const availableRes = ["maxresdefault", "sddefault", "hqdefault", "mqdefault", "default"];
-
-    for (const res of availableRes) {
-      const maxres = thumbnail.replace(/[^\/]+(?=.jpg)/, res);
-      const response = await axios.get(maxres);
-
-      if (response.status == 200) {
-        return { ...info, thumbnail: maxres };
-      }
-    }
-
-    return { ...info, thumbnail: "" };
-  }
+  const { title, description, publishedAt: date } = item.snippet;
+  return { title, description, date };
 }
