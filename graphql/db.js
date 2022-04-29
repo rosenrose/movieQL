@@ -86,9 +86,10 @@ export const getItems = async (max) => {
       responseType: "json",
     })
   ).data.items;
+  const id = item.contentDetails.videoId;
 
   return items.map(async (item) => ({
-    id: item.contentDetails.videoId,
+    id,
     ...extractInfo(item),
     thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
   }));
@@ -100,9 +101,10 @@ export const getItem = async (id) => {
       responseType: "json",
     })
   ).data.items[0];
+  const id = item.id;
 
   return {
-    id: item.id,
+    id,
     ...extractInfo(item),
     thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
   };
