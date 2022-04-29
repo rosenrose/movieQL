@@ -108,7 +108,7 @@ export const getItem = async (id) => {
   };
 };
 
-async function extractInfo(item) {
+function extractInfo(item) {
   const { title, description, publishedAt: date } = item.snippet;
   return { title, description, date };
 }
