@@ -87,11 +87,19 @@ export const getItems = async (max) => {
     })
   ).data.items;
 
-  return items.map(async (item) => ({
-    id: item.contentDetails.videoId,
-    ...extractInfo(item),
-    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${item.contentDetails.videoId}`)).data,
-  }));
+  // return items.map(async (item) => ({
+  //   id: item.contentDetails.videoId,
+  //   ...extractInfo(item),
+  //   thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${item.contentDetails.videoId}`)).data,
+  // }));
+  return items.map((item) => {
+    const id = item.contentDetails.videoId;
+    return axios.get(`${THUMBNAIL_URL}?id=${id}`).then((response) => ({
+      id,
+      ...extractInfo(item),
+      thumbnail: response.data,
+    }));
+  });
 };
 
 export const getItem = async (id) => {
