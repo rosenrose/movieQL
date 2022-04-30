@@ -101,11 +101,16 @@ export const getItem = async (id) => {
     })
   ).data.items[0];
 
-  return {
+  // return {
+  //   id,
+  //   ...extractInfo(item),
+  //   thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
+  // };
+  return axios.get(`${THUMBNAIL_URL}?id=${id}`).then((response) => ({
     id,
     ...extractInfo(item),
-    thumbnail: (await axios.get(`${THUMBNAIL_URL}?id=${id}`)).data,
-  };
+    thumbnail: response.data,
+  }));
 };
 
 function extractInfo(item) {
