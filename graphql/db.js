@@ -66,19 +66,16 @@ export const deleteMovie = (id) => {
   }
 };
 
-const id = "UUyWiQldYO_-yeLJC0j5oq2g";
-// const id = "PLtYQ7DpMMg-I22iICgrMNC1ln3ZT4FxUj";
 const API_KEY = process.env.API_KEY;
-const ITEMS_URL = `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${id}&key=${API_KEY}&part=snippet,contentDetails`;
+const ITEMS_URL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&part=snippet,contentDetails`;
 const ITEM_URL = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&part=snippet,contentDetails`;
 const THUMBNAIL_URL = "https://asia-northeast3-get-youtube-thumbnail.cloudfunctions.net/thumbnail";
 
-export const getItems = async (max) => {
-  let request_url;
+export const getItems = async (id, max) => {
+  let request_url = `${ITEMS_URL}&playlistId=${id}`;
+
   if (max > 0) {
-    request_url = `${ITEMS_URL}&maxResults=${max}`;
-  } else {
-    request_url = ITEMS_URL;
+    request_url = `${request_url}&maxResults=${max}`;
   }
 
   const items = (
