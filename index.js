@@ -29,7 +29,7 @@ const yogaServer = createServer({
         person(id: Int!): Person
         movies: [Movie]!
         movie(id: Int!): Movie
-        items(max: Int): [Item]!
+        items(id: String!, max: Int): [Item]!
         item(id: String!): Item
       }
       type Mutation {
