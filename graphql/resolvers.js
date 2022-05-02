@@ -6,7 +6,7 @@ const resolvers = {
     person: (_, { id }) => people.find((person) => person.id == id),
     movies: getMovies,
     movie: (_, { id }) => getMovieById(id),
-    items: (_, { id, max }) => getItems(max),
+    items: (_, { id, max }) => getItems(id, max),
     item: (_, { id }) => getItem(id),
   },
   Mutation: {
