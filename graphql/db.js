@@ -116,7 +116,7 @@ export const getItem = async (id, isRequestThumbnail) => {
     return {
       id,
       ...extractInfo(item),
-      thumbnail: null,
+      thumbnail: "",
     };
   }
 };
