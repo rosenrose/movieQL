@@ -30,7 +30,7 @@ const yogaServer = createServer({
         movies: [Movie]!
         movie(id: Int!): Movie
         items(id: String!, max: Int): [Item]!
-        item(id: String!, isRequestThumbnail: Boolean): Item
+        item(id: String!, thumbnail: String): Item
       }
       type Mutation {
         addMovie(title: String!, score: Float): Movie!

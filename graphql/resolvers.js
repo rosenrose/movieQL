@@ -7,7 +7,7 @@ const resolvers = {
     movies: getMovies,
     movie: (_, { id }) => getMovieById(id),
     items: (_, { id, max }) => getItems(id, max),
-    item: (_, { id, isRequestThumbnail }) => getItem(id, isRequestThumbnail),
+    item: (_, { id, thumbnail }) => getItem(id, thumbnail),
   },
   Mutation: {
     addMovie: (_, { title, score }) => addMovie(title, score),

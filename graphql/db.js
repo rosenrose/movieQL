@@ -99,25 +99,25 @@ export const getItems = async (id, max) => {
   });
 };
 
-export const getItem = async (id, isRequestThumbnail) => {
+export const getItem = async (id, thumbnail) => {
   const item = (
     await axios.get(`${ITEM_URL}&id=${id}`, {
       responseType: "json",
     })
   ).data.items[0];
 
-  if (isRequestThumbnail) {
+  if (thumbnail.length) {
+    return {
+      id,
+      ...extractInfo(item),
+      thumbnail,
+    };
+  } else {
     return axios.get(`${THUMBNAIL_URL}?id=${id}`).then((response) => ({
       id,
       ...extractInfo(item),
       thumbnail: response.data,
     }));
-  } else {
-    return {
-      id,
-      ...extractInfo(item),
-      thumbnail: "",
-    };
   }
 };
 
